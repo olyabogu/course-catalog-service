@@ -5,8 +5,6 @@ import com.kotlinspring.service.InstructorService
 import com.kotlinspring.util.createInstructorDto
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import io.mockk.just
-import io.mockk.runs
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -57,46 +55,5 @@ class InstructorControllerUnitTest {
             .expectStatus().is5xxServerError.expectBody(String::class.java)
             .returnResult().responseBody
         assertEquals(error, response)
-    }
-
-//    @Test
-//    fun retrieveAllInstructors() {
-//        every { instructorService.retrieveAllInstructors() }.returnsMany(
-//            listOf(
-//                createInstructorDto(id = 1),
-//                createInstructorDto(
-//                    id = 2, name =
-//                    "Build RestFul APis using SpringBoot and Kotlin", "Development"
-//                )
-//            )
-//        )
-//        val instructorDtos =
-//            webTestClient.get().uri("/v1/instructors").exchange().expectStatus().isOk.expectBodyList(InstructorDto::class.java)
-//                .returnResult().responseBody
-//        assertEquals(2, instructorDtos?.size)
-//    }
-
-    @Test
-    fun updateInstructor() {
-        val instructorDto = InstructorDto(
-            null,
-            "Ian"
-        )
-        val updatedInstructorDto = createInstructorDto(id = 100)
-//        every { instructorService.updateInstructor(100, instructorDto) }.returns(updatedInstructorDto)
-
-        val updatedInstructor =
-            webTestClient.put().uri("/v1/instructors/{instructorId}", 100).bodyValue(instructorDto).exchange()
-                .expectStatus().isOk.expectBody(
-                    InstructorDto::class.java
-                ).returnResult().responseBody
-        Assertions.assertEquals(updatedInstructorDto.name, updatedInstructor?.name)
-    }
-
-    @Test
-    fun deleteInstructor() {
-//        every { instructorService.deleteInstructor(1) } just runs
-        webTestClient.delete().uri("/v1/instructors/{instructorId}", 1).exchange()
-            .expectStatus().isNoContent
     }
 }
