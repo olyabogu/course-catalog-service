@@ -1,5 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+extra["testcontainersVersion"] = "1.19.0"
+dependencyManagement {
+    imports {
+        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+    }
+}
 plugins {
     id("org.springframework.boot") version "3.2.0-SNAPSHOT"
     id("io.spring.dependency-management") version "1.1.2"
@@ -37,6 +43,9 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
 }
 
 tasks.withType<KotlinCompile> {
@@ -52,7 +61,7 @@ tasks.withType<Test> {
 sourceSets {
     test {
         java {
-            setSrcDirs(listOf("src/test/intg",  "src/test/unit"))
+            setSrcDirs(listOf("src/test/intg", "src/test/unit"))
         }
     }
 }

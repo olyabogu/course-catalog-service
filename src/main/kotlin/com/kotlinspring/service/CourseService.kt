@@ -23,11 +23,11 @@ class CourseService(val courseRepository: CourseRepository, val instructorServic
         return courseEntity.let { CourseDto(it.id, it.name, it.category, it.instructor?.id) }
     }
 
-//    fun retrieveAllCourses(): List<CourseDto> {
-//        return courseRepository.findAll().map { CourseDto(it.id, it.name, it.category) }
-//    }
+    fun retrieveAllCourses(): List<CourseDto> {
+        return courseRepository.findAll().map { CourseDto(it.id, it.name, it.category) }
+    }
 
-    fun retrieveAllCoursesbyName(courseName: String?): List<CourseDto> {
+    fun retrieveAllCoursesByName(courseName: String?): List<CourseDto> {
         val courses = courseName?.let { courseRepository.findCoursesByName(courseName) } ?: courseRepository.findAll()
         return courses.map { CourseDto(it.id, it.name, it.category) }
     }
